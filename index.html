@@ -1,1071 +1,1730 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Andrew — AI & Automation Engineer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #020617;
-  --surface: #0a1628;
-  --surface2: #0f172a;
-  --border: #1e293b;
-  --border2: #263347;
-  --text: #94a3b8;
-  --muted: #475569;
-  --dim: #334155;
-  --white: #e2e8f0;
-  --accent: #38bdf8;
-  --accent-dim: rgba(56,189,248,0.12);
-  --green: #34d399;
-  --green-dim: rgba(52,211,153,0.1);
-  --amber: #fbbf24;
-  --purple: #a855f7;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Andrew — AI & Automation Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #020617;
+      --surface: #0a1628;
+      --surface2: #0f172a;
+      --border: #1e293b;
+      --border2: #263347;
+      --text: #94a3b8;
+      --muted: #475569;
+      --dim: #334155;
+      --white: #e2e8f0;
+      --accent: #38bdf8;
+      --accent-dim: rgba(56, 189, 248, 0.12);
+      --green: #34d399;
+      --green-dim: rgba(52, 211, 153, 0.1);
+      --amber: #fbbf24;
+      --purple: #a855f7;
 
-  /* n8n node colors */
-  --c-trigger: #e8a838;
-  --c-ai: #a855f7;
-  --c-logic: #22c55e;
-  --c-action: #4c87e8;
-  --c-output: #06b6d4;
-  --c-default: #475569;
-}
+      /* n8n node colors */
+      --c-trigger: #e8a838;
+      --c-ai: #a855f7;
+      --c-logic: #22c55e;
+      --c-action: #4c87e8;
+      --c-output: #06b6d4;
+      --c-default: #475569;
+    }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Geist Mono', monospace;
-  font-size: 13px;
-  line-height: 1.75;
-  min-height: 100vh;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: radial-gradient(circle, rgba(148,163,184,0.06) 1px, transparent 1px);
-  background-size: 32px 32px;
-  pointer-events: none;
-  z-index: 0;
-}
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Geist Mono', monospace;
+      font-size: 13px;
+      line-height: 1.75;
+      min-height: 100vh;
+    }
 
-body::after {
-  content: '';
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  opacity: 0.4;
-  z-index: 10;
-}
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-.container { max-width: 660px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.4;
+      z-index: 10;
+    }
 
-/* NAV */
-nav { padding: 52px 0 0; display: flex; gap: 28px; margin-bottom: 88px; align-items: center; }
-nav a { color: var(--white); text-decoration: none; font-weight: 500; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
-nav a.dim { color: var(--muted); font-weight: 300; text-transform: none; letter-spacing: 0; transition: color 0.2s; }
-nav a.dim:hover { color: var(--text); }
-nav .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 2s ease-in-out infinite; margin-left: auto; }
-nav .status { font-size: 11px; color: var(--green); letter-spacing: 0.04em; }
+    .container {
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 0 28px;
+      position: relative;
+      z-index: 1;
+    }
 
-/* INTRO */
-.intro { margin-bottom: 80px; opacity: 0; animation: fadeUp 0.7s ease forwards; }
-.intro p { color: var(--text); margin-bottom: 14px; font-weight: 300; }
-.intro p strong { color: var(--white); font-weight: 500; }
-.intro .tag { color: var(--accent); }
-.intro .quote { font-family: 'Instrument Serif', serif; font-style: italic; color: var(--dim); font-size: 15px; margin: 28px 0; padding-left: 16px; border-left: 1px solid var(--border2); }
-.links { display: flex; margin-top: 28px; }
-.links a { color: var(--muted); text-decoration: none; font-size: 12px; padding: 5px 14px; border: 1px solid var(--border); margin-right: -1px; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
-.links a:first-child { border-radius: 3px 0 0 3px; }
-.links a:last-child { border-radius: 0 3px 3px 0; }
-.links a:hover { color: var(--white); border-color: var(--dim); background: var(--surface2); z-index: 1; position: relative; }
+    /* NAV */
+    nav {
+      padding: 52px 0 0;
+      display: flex;
+      gap: 28px;
+      margin-bottom: 88px;
+      align-items: center;
+    }
 
-/* SECTIONS */
-section { margin-bottom: 80px; opacity: 0; animation: fadeUp 0.7s ease forwards; }
-section:nth-of-type(1) { animation-delay: 0.1s; }
-section:nth-of-type(2) { animation-delay: 0.2s; }
-section:nth-of-type(3) { animation-delay: 0.3s; }
+    nav a {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
 
-.section-label { font-size: 11px; font-weight: 500; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 32px; display: flex; align-items: center; gap: 12px; }
-.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    nav a.dim {
+      color: var(--muted);
+      font-weight: 300;
+      text-transform: none;
+      letter-spacing: 0;
+      transition: color 0.2s;
+    }
 
-/* SERVICE GRID */
-.service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 5px; overflow: hidden; }
-.service-item { background: var(--bg); padding: 20px; transition: background 0.2s; }
-.service-item:hover { background: var(--surface); }
-.service-item .s-icon { font-size: 16px; margin-bottom: 10px; opacity: 0.7; }
-.service-item .s-title { color: var(--white); font-size: 12px; font-weight: 500; margin-bottom: 6px; }
-.service-item .s-desc { color: var(--muted); font-size: 11px; font-weight: 300; line-height: 1.6; }
+    nav a.dim:hover {
+      color: var(--text);
+    }
 
-/* PROJECT CARDS */
-.project-card {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  margin-bottom: 20px;
-  overflow: visible;
-  transition: border-color 0.2s;
-  position: relative;
-}
-.project-card:hover { border-color: var(--dim); }
+    nav .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 2s ease-in-out infinite;
+      margin-left: auto;
+    }
 
-.project-header { padding: 18px 20px 16px; }
-.project-title { color: var(--white); font-size: 13px; font-weight: 500; margin-bottom: 5px; }
-.project-desc { color: var(--muted); font-size: 11px; font-weight: 300; line-height: 1.6; margin-bottom: 14px; }
+    nav .status {
+      font-size: 11px;
+      color: var(--green);
+      letter-spacing: 0.04em;
+    }
 
-.project-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
-.badge { font-size: 10px; letter-spacing: 0.05em; padding: 2px 8px; border-radius: 2px; text-transform: uppercase; white-space: nowrap; }
-.badge.n8n { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(56,189,248,0.2); }
-.badge.ai { background: var(--green-dim); color: var(--green); border: 1px solid rgba(52,211,153,0.2); }
-.badge.live { background: rgba(251,191,36,0.08); color: var(--amber); border: 1px solid rgba(251,191,36,0.2); }
-.badge.purple { background: rgba(168,85,247,0.1); color: var(--purple); border: 1px solid rgba(168,85,247,0.2); }
+    /* INTRO */
+    .intro {
+      margin-bottom: 80px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards;
+    }
 
-.project-actions { display: flex; gap: 8px; }
-.action-btn {
-  background: none;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  font-family: 'Geist Mono', monospace;
-  font-size: 10px;
-  padding: 5px 12px;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: all 0.15s;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-.action-btn:hover { color: var(--white); border-color: var(--dim); background: var(--surface2); }
-.action-btn.active { color: var(--accent); border-color: var(--accent); }
+    .intro p {
+      color: var(--text);
+      margin-bottom: 14px;
+      font-weight: 300;
+    }
 
-/* ── n8n CANVAS WINDOW ── */
-.canvas-window {
-  display: none;
-  margin: 0 16px 16px;
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  overflow: hidden;
-  background: #0d1117;
-  position: relative;
-  --cv-bg: #0d1117;
-  --cv-dot: #1e2530;
-  --cv-bar: #161b22;
-  --cv-bar-border: #1e293b;
-  --cv-node-bg: #161b22;
-  --cv-node-border: #30363d;
-  --cv-node-inner: #21262d;
-  --cv-node-name: #cdd9e5;
-  --cv-node-type: #484f58;
-  --cv-conn: #30363d;
-  --cv-zoom-bg: #21262d;
-  --cv-zoom-btn: #161b22;
-  --cv-zoom-color: #484f58;
-  --cv-zoom-hover: #1c2128;
-}
-.canvas-window.light {
-  --cv-bg: #f8fafc;
-  --cv-dot: #e2e8f0;
-  --cv-bar: #f1f5f9;
-  --cv-bar-border: #e2e8f0;
-  --cv-node-bg: #ffffff;
-  --cv-node-border: #e2e8f0;
-  --cv-node-inner: #f8fafc;
-  --cv-node-name: #1e293b;
-  --cv-node-type: #94a3b8;
-  --cv-conn: #cbd5e1;
-  --cv-zoom-bg: #e2e8f0;
-  --cv-zoom-btn: #f1f5f9;
-  --cv-zoom-color: #94a3b8;
-  --cv-zoom-hover: #e8eef4;
-}
-.canvas-window.open { display: block; }
+    .intro p strong {
+      color: var(--white);
+      font-weight: 500;
+    }
 
-.canvas-titlebar {
-  background: var(--cv-bar);
-  border-bottom: 1px solid var(--cv-bar-border);
-  padding: 8px 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: move;
-  user-select: none;
-}
-.canvas-dots { display: flex; gap: 5px; }
-.canvas-dots span { width: 10px; height: 10px; border-radius: 50%; }
-.canvas-dots .d1 { background: #ff5f57; }
-.canvas-dots .d2 { background: #febc2e; }
-.canvas-dots .d3 { background: #28c840; }
-.canvas-wf-name { font-size: 10px; color: var(--cv-node-type); letter-spacing: 0.05em; flex: 1; text-align: center; }
+    .intro .tag {
+      color: var(--accent);
+    }
 
-.canvas-toolbar { display: flex; gap: 4px; align-items: center; }
-.canvas-toolbar button {
-  background: none; border: none; color: var(--muted); font-size: 11px; cursor: pointer;
-  padding: 2px 6px; border-radius: 2px; font-family: 'Geist Mono', monospace; transition: color 0.15s;
-}
-.canvas-toolbar button:hover { color: var(--white); }
+    .intro .quote {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      color: var(--dim);
+      font-size: 15px;
+      margin: 28px 0;
+      padding-left: 16px;
+      border-left: 1px solid var(--border2);
+    }
 
-.canvas-body {
-  height: 240px;
-  overflow: hidden;
-  position: relative;
-  background: var(--cv-bg);
-  background-image: radial-gradient(circle, var(--cv-dot) 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-.canvas-body.expanded { height: 420px; }
+    .links {
+      display: flex;
+      margin-top: 28px;
+    }
 
-.canvas-viewport {
-  position: absolute;
-  top: 0; left: 0;
-  transform-origin: 0 0;
-}
+    .links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      padding: 5px 14px;
+      border: 1px solid var(--border);
+      margin-right: -1px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
 
-/* SVG connections */
-.canvas-svg {
-  position: absolute;
-  top: 0; left: 0;
-  pointer-events: none;
-  overflow: visible;
-}
+    .links a:first-child {
+      border-radius: 3px 0 0 3px;
+    }
 
-.canvas-theme-btn {
-  background: none; border: 1px solid transparent; color: var(--muted);
-  font-size: 11px; cursor: pointer; padding: 2px 6px; border-radius: 2px;
-  font-family: 'Geist Mono', monospace; transition: all 0.15s; line-height: 1;
-}
-.canvas-theme-btn:hover { color: var(--white); border-color: var(--dim); }
+    .links a:last-child {
+      border-radius: 0 3px 3px 0;
+    }
 
-/* n8n NODE CARD */
-.n-node {
-  position: absolute;
-  width: 140px;
-  background: var(--cv-node-bg);
-  border: 1px solid var(--cv-node-border);
-  border-radius: 8px;
-  font-size: 10px;
-  transition: border-color 0.15s, box-shadow 0.15s;
-}
-.n-node:hover { border-color: var(--cv-node-type); box-shadow: 0 4px 16px rgba(0,0,0,0.3); z-index: 5; }
+    .links a:hover {
+      color: var(--white);
+      border-color: var(--dim);
+      background: var(--surface2);
+      z-index: 1;
+      position: relative;
+    }
 
-.n-node-top {
-  display: flex; align-items: center; gap: 7px;
-  padding: 8px 10px 6px;
-  border-bottom: 1px solid var(--cv-node-inner);
-}
-.n-icon {
-  width: 24px; height: 24px;
-  border-radius: 5px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px;
-  flex-shrink: 0;
-}
-.n-name {
-  color: var(--cv-node-name);
-  font-size: 9.5px;
-  font-weight: 500;
-  line-height: 1.3;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-.n-type { font-size: 9px; color: var(--cv-node-type); padding: 5px 10px 7px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    /* SECTIONS */
+    section {
+      margin-bottom: 80px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards;
+    }
 
-/* connector ports */
-.n-port {
-  position: absolute;
-  width: 9px; height: 9px;
-  border-radius: 50%;
-  top: 50%; transform: translateY(-50%);
-  border: 2px solid var(--cv-bg);
-}
-.n-port.left { left: -5px; }
-.n-port.right { right: -5px; }
+    section:nth-of-type(1) {
+      animation-delay: 0.1s;
+    }
 
-/* zoom controls */
-.canvas-zoom {
-  position: absolute;
-  bottom: 10px; left: 10px;
-  display: flex; gap: 1px;
-  background: var(--cv-zoom-bg); border-radius: 3px; overflow: hidden;
-  z-index: 20;
-}
-.canvas-zoom button {
-  background: var(--cv-zoom-btn); border: none; color: var(--cv-zoom-color);
-  font-size: 12px; width: 26px; height: 26px;
-  cursor: pointer; font-family: 'Geist Mono', monospace;
-  transition: all 0.15s; display: flex; align-items: center; justify-content: center;
-}
-.canvas-zoom button:hover { color: var(--cv-node-name); background: var(--cv-zoom-hover); }
-.canvas-zoom .zl { color: var(--cv-zoom-color); font-size: 9px; display: flex; align-items: center; padding: 0 8px; background: var(--cv-zoom-btn); }
+    section:nth-of-type(2) {
+      animation-delay: 0.2s;
+    }
 
-/* CASE STUDY MODAL */
-.modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(2,6,23,0.92);
-  z-index: 1000;
-  backdrop-filter: blur(4px);
-  padding: 40px 20px;
-  overflow-y: auto;
-}
-.modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
+    section:nth-of-type(3) {
+      animation-delay: 0.3s;
+    }
 
-.modal {
-  background: var(--surface2);
-  border: 1px solid var(--border2);
-  border-radius: 8px;
-  max-width: 640px;
-  width: 100%;
-  padding: 36px;
-  position: relative;
-  animation: fadeUp 0.3s ease;
-}
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-.modal-close {
-  position: absolute;
-  top: 20px; right: 20px;
-  background: none; border: 1px solid var(--border);
-  color: var(--muted); font-family: 'Geist Mono', monospace;
-  font-size: 12px; padding: 4px 10px; border-radius: 3px;
-  cursor: pointer; transition: all 0.15s;
-}
-.modal-close:hover { color: var(--white); border-color: var(--dim); }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
 
-.modal-tag { font-size: 10px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
-.modal-title { color: var(--white); font-size: 18px; font-weight: 500; margin-bottom: 8px; line-height: 1.4; }
-.modal-subtitle { color: var(--muted); font-size: 12px; font-weight: 300; margin-bottom: 28px; line-height: 1.7; }
+    /* SERVICE GRID */
+    .service-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      overflow: hidden;
+    }
 
-.modal-divider { height: 1px; background: var(--border); margin: 24px 0; }
+    .service-item {
+      background: var(--bg);
+      padding: 20px;
+      transition: background 0.2s;
+    }
 
-.modal-section-title { font-size: 10px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px; }
+    .service-item:hover {
+      background: var(--surface);
+    }
 
-.modal-body p { color: var(--text); font-size: 12px; font-weight: 300; line-height: 1.8; margin-bottom: 14px; }
-.modal-body p strong { color: var(--white); font-weight: 500; }
+    .service-item .s-icon {
+      font-size: 16px;
+      margin-bottom: 10px;
+      opacity: 0.7;
+    }
 
-.modal-stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 24px; }
-.modal-stat { background: var(--bg); padding: 16px; }
-.modal-stat .val { color: var(--accent); font-size: 20px; font-weight: 500; margin-bottom: 4px; }
-.modal-stat .lbl { color: var(--muted); font-size: 10px; font-weight: 300; line-height: 1.4; }
+    .service-item .s-title {
+      color: var(--white);
+      font-size: 12px;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
 
-.modal-stack { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 20px; }
-.modal-stack span { font-size: 10px; color: var(--muted); border: 1px solid var(--border); padding: 3px 10px; border-radius: 2px; }
+    .service-item .s-desc {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 300;
+      line-height: 1.6;
+    }
 
-/* STACK */
-.stack-list { display: flex; flex-direction: column; }
-.stack-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
-.stack-row:last-child { border-bottom: none; }
-.stack-name { color: var(--white); font-weight: 400; }
-.stack-role { color: var(--muted); font-weight: 300; font-size: 11px; }
-.stack-level { display: flex; gap: 3px; }
-.pip { width: 20px; height: 3px; border-radius: 1px; background: var(--border); }
-.pip.on { background: var(--accent); }
-.pip.on.g { background: var(--green); }
+    /* PROJECT CARDS */
+    .project-card {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin-bottom: 20px;
+      overflow: visible;
+      transition: border-color 0.2s;
+      position: relative;
+    }
 
-/* FOOTER */
-footer { border-top: 1px solid var(--border); padding: 28px 0 52px; display: flex; justify-content: space-between; align-items: center; }
-footer p { color: var(--muted); font-size: 11px; font-weight: 300; }
-.heart { color: #ef4444; }
-.availability { font-size: 11px; color: var(--green); display: flex; align-items: center; gap: 6px; }
-.availability::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green); animation: pulse 2s ease-in-out infinite; }
+    .project-card:hover {
+      border-color: var(--dim);
+    }
 
-@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
-@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+    .project-header {
+      padding: 18px 20px 16px;
+    }
 
-@media(max-width:480px){
-  .service-grid{grid-template-columns:1fr}
-  nav .status,nav .dot{display:none}
-  .modal-stat-grid{grid-template-columns:1fr 1fr}
-}
-</style>
+    .project-title {
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+
+    .project-desc {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 300;
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .project-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .badge {
+      font-size: 10px;
+      letter-spacing: 0.05em;
+      padding: 2px 8px;
+      border-radius: 2px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .badge.n8n {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    .badge.ai {
+      background: var(--green-dim);
+      color: var(--green);
+      border: 1px solid rgba(52, 211, 153, 0.2);
+    }
+
+    .badge.live {
+      background: rgba(251, 191, 36, 0.08);
+      color: var(--amber);
+      border: 1px solid rgba(251, 191, 36, 0.2);
+    }
+
+    .badge.purple {
+      background: rgba(168, 85, 247, 0.1);
+      color: var(--purple);
+      border: 1px solid rgba(168, 85, 247, 0.2);
+    }
+
+    .project-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      padding: 5px 12px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.15s;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .action-btn:hover {
+      color: var(--white);
+      border-color: var(--dim);
+      background: var(--surface2);
+    }
+
+    .action-btn.active {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* ── n8n CANVAS WINDOW ── */
+    .canvas-window {
+      display: none;
+      margin: 0 16px 16px;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      overflow: hidden;
+      background: #0d1117;
+      position: relative;
+      --cv-bg: #0d1117;
+      --cv-dot: #1e2530;
+      --cv-bar: #161b22;
+      --cv-bar-border: #1e293b;
+      --cv-node-bg: #161b22;
+      --cv-node-border: #30363d;
+      --cv-node-inner: #21262d;
+      --cv-node-name: #cdd9e5;
+      --cv-node-type: #484f58;
+      --cv-conn: #30363d;
+      --cv-zoom-bg: #21262d;
+      --cv-zoom-btn: #161b22;
+      --cv-zoom-color: #484f58;
+      --cv-zoom-hover: #1c2128;
+    }
+
+    .canvas-window.light {
+      --cv-bg: #f8fafc;
+      --cv-dot: #e2e8f0;
+      --cv-bar: #f1f5f9;
+      --cv-bar-border: #e2e8f0;
+      --cv-node-bg: #ffffff;
+      --cv-node-border: #e2e8f0;
+      --cv-node-inner: #f8fafc;
+      --cv-node-name: #1e293b;
+      --cv-node-type: #94a3b8;
+      --cv-conn: #cbd5e1;
+      --cv-zoom-bg: #e2e8f0;
+      --cv-zoom-btn: #f1f5f9;
+      --cv-zoom-color: #94a3b8;
+      --cv-zoom-hover: #e8eef4;
+    }
+
+    .canvas-window.open {
+      display: block;
+    }
+
+    .canvas-titlebar {
+      background: var(--cv-bar);
+      border-bottom: 1px solid var(--cv-bar-border);
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: move;
+      user-select: none;
+    }
+
+    .canvas-dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .canvas-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .canvas-dots .d1 {
+      background: #ff5f57;
+    }
+
+    .canvas-dots .d2 {
+      background: #febc2e;
+    }
+
+    .canvas-dots .d3 {
+      background: #28c840;
+    }
+
+    .canvas-wf-name {
+      font-size: 10px;
+      color: var(--cv-node-type);
+      letter-spacing: 0.05em;
+      flex: 1;
+      text-align: center;
+    }
+
+    .canvas-toolbar {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .canvas-toolbar button {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 11px;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 2px;
+      font-family: 'Geist Mono', monospace;
+      transition: color 0.15s;
+    }
+
+    .canvas-toolbar button:hover {
+      color: var(--white);
+    }
+
+    .canvas-body {
+      height: 240px;
+      overflow: hidden;
+      position: relative;
+      background: var(--cv-bg);
+      background-image: radial-gradient(circle, var(--cv-dot) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .canvas-body.expanded {
+      height: 420px;
+    }
+
+    .canvas-viewport {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform-origin: 0 0;
+    }
+
+    /* SVG connections */
+    .canvas-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    .canvas-theme-btn {
+      background: none;
+      border: 1px solid transparent;
+      color: var(--muted);
+      font-size: 11px;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 2px;
+      font-family: 'Geist Mono', monospace;
+      transition: all 0.15s;
+      line-height: 1;
+    }
+
+    .canvas-theme-btn:hover {
+      color: var(--white);
+      border-color: var(--dim);
+    }
+
+    /* n8n NODE CARD */
+    .n-node {
+      position: absolute;
+      width: 140px;
+      background: var(--cv-node-bg);
+      border: 1px solid var(--cv-node-border);
+      border-radius: 8px;
+      font-size: 10px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .n-node:hover {
+      border-color: var(--cv-node-type);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+      z-index: 5;
+    }
+
+    .n-node-top {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 10px 6px;
+      border-bottom: 1px solid var(--cv-node-inner);
+    }
+
+    .n-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+
+    .n-name {
+      color: var(--cv-node-name);
+      font-size: 9.5px;
+      font-weight: 500;
+      line-height: 1.3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .n-type {
+      font-size: 9px;
+      color: var(--cv-node-type);
+      padding: 5px 10px 7px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* connector ports */
+    .n-port {
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 2px solid var(--cv-bg);
+    }
+
+    .n-port.left {
+      left: -5px;
+    }
+
+    .n-port.right {
+      right: -5px;
+    }
+
+    /* zoom controls */
+    .canvas-zoom {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      display: flex;
+      gap: 1px;
+      background: var(--cv-zoom-bg);
+      border-radius: 3px;
+      overflow: hidden;
+      z-index: 20;
+    }
+
+    .canvas-zoom button {
+      background: var(--cv-zoom-btn);
+      border: none;
+      color: var(--cv-zoom-color);
+      font-size: 12px;
+      width: 26px;
+      height: 26px;
+      cursor: pointer;
+      font-family: 'Geist Mono', monospace;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .canvas-zoom button:hover {
+      color: var(--cv-node-name);
+      background: var(--cv-zoom-hover);
+    }
+
+    .canvas-zoom .zl {
+      color: var(--cv-zoom-color);
+      font-size: 9px;
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      background: var(--cv-zoom-btn);
+    }
+
+    /* CASE STUDY MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.92);
+      z-index: 1000;
+      backdrop-filter: blur(4px);
+      padding: 40px 20px;
+      overflow-y: auto;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .modal {
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      max-width: 640px;
+      width: 100%;
+      padding: 36px;
+      position: relative;
+      animation: fadeUp 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'Geist Mono', monospace;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .modal-close:hover {
+      color: var(--white);
+      border-color: var(--dim);
+    }
+
+    .modal-tag {
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .modal-title {
+      color: var(--white);
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .modal-subtitle {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 300;
+      margin-bottom: 28px;
+      line-height: 1.7;
+    }
+
+    .modal-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 24px 0;
+    }
+
+    .modal-section-title {
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .modal-body p {
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 300;
+      line-height: 1.8;
+      margin-bottom: 14px;
+    }
+
+    .modal-body p strong {
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    .modal-stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .modal-stat {
+      background: var(--bg);
+      padding: 16px;
+    }
+
+    .modal-stat .val {
+      color: var(--accent);
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .modal-stat .lbl {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 300;
+      line-height: 1.4;
+    }
+
+    .modal-stack {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .modal-stack span {
+      font-size: 10px;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+      border-radius: 2px;
+    }
+
+    /* STACK */
+    .stack-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stack-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+
+    .stack-row:last-child {
+      border-bottom: none;
+    }
+
+    .stack-name {
+      color: var(--white);
+      font-weight: 400;
+    }
+
+    .stack-role {
+      color: var(--muted);
+      font-weight: 300;
+      font-size: 11px;
+    }
+
+    .stack-level {
+      display: flex;
+      gap: 3px;
+    }
+
+    .pip {
+      width: 20px;
+      height: 3px;
+      border-radius: 1px;
+      background: var(--border);
+    }
+
+    .pip.on {
+      background: var(--accent);
+    }
+
+    .pip.on.g {
+      background: var(--green);
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 0 52px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer p {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 300;
+    }
+
+    .heart {
+      color: #ef4444;
+    }
+
+    .availability {
+      font-size: 11px;
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .availability::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(0.8)
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    @media(max-width:480px) {
+      .service-grid {
+        grid-template-columns: 1fr
+      }
+
+      nav .status,
+      nav .dot {
+        display: none
+      }
+
+      .modal-stat-grid {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="container">
+  <div class="container">
 
-  <!-- NAV -->
-  <nav>
-    <a href="#">andrew</a>
-    <a href="#projects" class="dim">projects</a>
-    <a href="#stack" class="dim">stack</a>
-    <div class="dot"></div>
-    <span class="status">available for work</span>
-  </nav>
+    <!-- NAV -->
+    <nav>
+      <a href="#">andrew</a>
+      <a href="#projects" class="dim">projects</a>
+      <a href="#stack" class="dim">stack</a>
+      <div class="dot"></div>
+      <span class="status">available for work</span>
+    </nav>
 
-  <!-- INTRO -->
-  <div class="intro">
-    <p>I'm <strong>Andrew</strong> — AI & automation engineer based in <strong>Nigeria</strong>.</p>
-    <p>I replace manual business processes with <span class="tag">intelligent workflows</span> — systems that think, decide, and act without human intervention.</p>
-    <p>I work at the intersection of <strong>AI agents</strong>, <strong>n8n</strong>, and <strong>Python</strong> to build pipelines that run in production and actually save time.</p>
-    <p class="quote">"The best automation is the one your team forgets is running."</p>
-    <div class="links">
-      <a href="https://github.com/dreww01" target="_blank" title="GitHub" aria-label="GitHub">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-        GitHub
-      </a>
-      <a href="https://www.linkedin.com/in/onwe-andrew-774194249" target="_blank" title="LinkedIn" aria-label="LinkedIn">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-        LinkedIn
-      </a>
-      <a href="https://cal.com/onwe-olisaemeka-andrew-z2vwxz" target="_blank" title="Book a Call" aria-label="Book a Call">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        Book a Call
-      </a>
-    </div>
-  </div>
-
-  <!-- SERVICES -->
-  <section>
-    <div class="section-label">What I Build</div>
-    <div class="service-grid">
-      <div class="service-item">
-        <div class="s-icon">⬡</div>
-        <div class="s-title">AI Workflow Automation</div>
-        <div class="s-desc">n8n pipelines with LLM decision nodes that classify, summarize, and route data automatically.</div>
-      </div>
-      <div class="service-item">
-        <div class="s-icon">◈</div>
-        <div class="s-title">CRM & Lead Automation</div>
-        <div class="s-desc">Form → qualify → enrich → notify. Full lead lifecycle without manual touchpoints.</div>
-      </div>
-      <div class="service-item">
-        <div class="s-icon">⊡</div>
-        <div class="s-title">AI Agent Development</div>
-        <div class="s-desc">Custom agents using Gemini or GPT-4o that score, write, and act on real business data.</div>
-      </div>
-      <div class="service-item">
-        <div class="s-icon">⟡</div>
-        <div class="s-title">Booking & CRM Sync</div>
-        <div class="s-desc">Cal.com → Airtable → Gmail + WhatsApp. Every booked call tracked and confirmed automatically.</div>
+    <!-- INTRO -->
+    <div class="intro">
+      <p>I'm <strong>Andrew</strong> — AI & automation engineer based in <strong>Nigeria</strong>.</p>
+      <p>I replace manual business processes with <span class="tag">intelligent workflows</span> — systems that think,
+        decide, and act without human intervention.</p>
+      <p>I work at the intersection of <strong>AI agents</strong>, <strong>n8n</strong>, and <strong>Python</strong> to
+        build pipelines that run in production and actually save time.</p>
+      <p class="quote">"The best automation is the one your team forgets is running."</p>
+      <div class="links">
+        <a href="https://github.com/dreww01" target="_blank" title="GitHub" aria-label="GitHub">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path
+              d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+          </svg>
+          GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/onwe-andrew-774194249" target="_blank" title="LinkedIn"
+          aria-label="LinkedIn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+            <rect x="2" y="9" width="4" height="12" />
+            <circle cx="4" cy="4" r="2" />
+          </svg>
+          LinkedIn
+        </a>
+        <a href="https://cal.com/onwe-olisaemeka-andrew-z2vwxz" target="_blank" title="Book a Call"
+          aria-label="Book a Call">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
+          </svg>
+          Book a Call
+        </a>
       </div>
     </div>
-  </section>
 
-  <!-- PROJECTS -->
-  <section id="projects">
-    <div class="section-label">Projects</div>
-
-    <!-- PROJECT 1: LinkedIn Auto-Poster -->
-    <div class="project-card" id="card-0">
-      <div class="project-header">
-        <div class="project-title">LinkedIn Auto-Poster</div>
-        <div class="project-desc">Wakes at 9am daily, calls OpenAI to write a LinkedIn post, validates the content, publishes it, and logs the result to Airtable. Slack alert fires if anything fails.</div>
-        <div class="project-tags">
-          <span class="badge n8n">n8n</span>
-          <span class="badge ai">OpenAI</span>
-          <span class="badge live">live</span>
+    <!-- SERVICES -->
+    <section>
+      <div class="section-label">What I Build</div>
+      <div class="service-grid">
+        <div class="service-item">
+          <div class="s-icon">⬡</div>
+          <div class="s-title">AI Workflow Automation</div>
+          <div class="s-desc">n8n pipelines with LLM decision nodes that classify, summarize, and route data
+            automatically.</div>
         </div>
-        <div class="project-actions">
-          <button class="action-btn" onclick="toggleCanvas(0)">⬡ View Workflow</button>
-          <button class="action-btn" onclick="openModal(0)">↗ Case Study</button>
+        <div class="service-item">
+          <div class="s-icon">◈</div>
+          <div class="s-title">CRM & Lead Automation</div>
+          <div class="s-desc">Form → qualify → enrich → notify. Full lead lifecycle without manual touchpoints.</div>
         </div>
-      </div>
-      <div class="canvas-window" id="canvas-0">
-        <div class="canvas-titlebar">
-          <div class="canvas-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
-          <span class="canvas-wf-name">LinkedIn Auto-Poster</span>
-          <div class="canvas-toolbar">
-            <button class="canvas-theme-btn" onclick="toggleCanvasTheme(0)" title="Toggle light/dark">◐</button>
-            <button onclick="zoomCanvas(0,-0.15)">−</button>
-            <button onclick="zoomCanvas(0,0.15)">+</button>
-            <button onclick="fitCanvas(0)">fit</button>
-            <button onclick="expandCanvas(0)">⤢</button>
+        <div class="service-item">
+          <div class="s-icon">⊡</div>
+          <div class="s-title">AI Agent Development</div>
+          <div class="s-desc">Custom agents using Gemini or GPT-4o that score, write, and act on real business data.
           </div>
         </div>
-        <div class="canvas-body" id="body-0">
-          <svg class="canvas-svg" id="svg-0"></svg>
-          <div class="canvas-viewport" id="vp-0"></div>
+        <div class="service-item">
+          <div class="s-icon">⟡</div>
+          <div class="s-title">Booking & CRM Sync</div>
+          <div class="s-desc">Cal.com → Airtable → Gmail + WhatsApp. Every booked call tracked and confirmed
+            automatically.</div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- PROJECT 2: AI Lead Qualification -->
-    <div class="project-card" id="card-1">
-      <div class="project-header">
-        <div class="project-title">AI Lead Qualification & Instant Follow-up</div>
-        <div class="project-desc">Form submission triggers a Gemini AI agent that scores the lead Hot/Warm/Cold, writes a personalised email, sends it via Gmail, saves to Airtable, and fires a WhatsApp alert for hot leads — all in under 30 seconds.</div>
-        <div class="project-tags">
-          <span class="badge n8n">n8n</span>
-          <span class="badge ai">Gemini AI</span>
-          <span class="badge purple">Agent</span>
-          <span class="badge live">live</span>
-        </div>
-        <div class="project-actions">
-          <button class="action-btn" onclick="toggleCanvas(1)">⬡ View Workflow</button>
-          <button class="action-btn" onclick="openModal(1)">↗ Case Study</button>
-        </div>
-      </div>
-      <div class="canvas-window" id="canvas-1">
-        <div class="canvas-titlebar">
-          <div class="canvas-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
-          <span class="canvas-wf-name">AI Lead Qualification & Follow-up</span>
-          <div class="canvas-toolbar">
-            <button class="canvas-theme-btn" onclick="toggleCanvasTheme(1)" title="Toggle light/dark">◐</button>
-            <button onclick="zoomCanvas(1,-0.15)">−</button>
-            <button onclick="zoomCanvas(1,0.15)">+</button>
-            <button onclick="fitCanvas(1)">fit</button>
-            <button onclick="expandCanvas(1)">⤢</button>
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="section-label">Projects</div>
+
+      <!-- PROJECT 1: LinkedIn Auto-Poster -->
+      <div class="project-card" id="card-0">
+        <div class="project-header">
+          <div class="project-title">LinkedIn Auto-Poster</div>
+          <div class="project-desc">Wakes at 9am daily, calls OpenAI to write a LinkedIn post, validates the content,
+            publishes it, and logs the result to Airtable. Slack alert fires if anything fails.</div>
+          <div class="project-tags">
+            <span class="badge n8n">n8n</span>
+            <span class="badge ai">OpenAI</span>
+            <span class="badge live">live</span>
+          </div>
+          <div class="project-actions">
+            <button class="action-btn" onclick="toggleCanvas(0)">⬡ View Workflow</button>
+            <button class="action-btn" onclick="openModal(0)">↗ Case Study</button>
           </div>
         </div>
-        <div class="canvas-body" id="body-1">
-          <svg class="canvas-svg" id="svg-1"></svg>
-          <div class="canvas-viewport" id="vp-1"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PROJECT 3: Drip Sequence -->
-    <div class="project-card" id="card-2">
-      <div class="project-header">
-        <div class="project-title">Automated Email Drip Sequence</div>
-        <div class="project-desc">Every morning at 9am, checks Airtable for Warm and Cold leads ready for their next email. Sends timed follow-ups across 3–7 days, then marks the sequence complete. Zero manual follow-up needed.</div>
-        <div class="project-tags">
-          <span class="badge n8n">n8n</span>
-          <span class="badge ai">Airtable</span>
-          <span class="badge live">live</span>
-        </div>
-        <div class="project-actions">
-          <button class="action-btn" onclick="toggleCanvas(2)">⬡ View Workflow</button>
-          <button class="action-btn" onclick="openModal(2)">↗ Case Study</button>
-        </div>
-      </div>
-      <div class="canvas-window" id="canvas-2">
-        <div class="canvas-titlebar">
-          <div class="canvas-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
-          <span class="canvas-wf-name">Automated Drip Sequence</span>
-          <div class="canvas-toolbar">
-            <button class="canvas-theme-btn" onclick="toggleCanvasTheme(2)" title="Toggle light/dark">◐</button>
-            <button onclick="zoomCanvas(2,-0.15)">−</button>
-            <button onclick="zoomCanvas(2,0.15)">+</button>
-            <button onclick="fitCanvas(2)">fit</button>
-            <button onclick="expandCanvas(2)">⤢</button>
+        <div class="canvas-window" id="canvas-0">
+          <div class="canvas-titlebar">
+            <div class="canvas-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="canvas-wf-name">LinkedIn Auto-Poster</span>
+            <div class="canvas-toolbar">
+              <button class="canvas-theme-btn" onclick="toggleCanvasTheme(0)" title="Toggle light/dark">◐</button>
+              <button onclick="zoomCanvas(0,-0.15)">−</button>
+              <button onclick="zoomCanvas(0,0.15)">+</button>
+              <button onclick="fitCanvas(0)">fit</button>
+              <button onclick="expandCanvas(0)">⤢</button>
+            </div>
+          </div>
+          <div class="canvas-body" id="body-0">
+            <svg class="canvas-svg" id="svg-0"></svg>
+            <div class="canvas-viewport" id="vp-0"></div>
           </div>
         </div>
-        <div class="canvas-body" id="body-2">
-          <svg class="canvas-svg" id="svg-2"></svg>
-          <div class="canvas-viewport" id="vp-2"></div>
-        </div>
       </div>
-    </div>
 
-    <!-- PROJECT 4: Booking Handler -->
-    <div class="project-card" id="card-3">
-      <div class="project-header">
-        <div class="project-title">Cal.com Booking Automation</div>
-        <div class="project-desc">When a prospect books a call via Cal.com, the webhook fires, booking details are extracted and saved to a "Booked Calls" Airtable table, a confirmation email is sent, and a WhatsApp alert notifies the host instantly.</div>
-        <div class="project-tags">
-          <span class="badge n8n">n8n</span>
-          <span class="badge ai">Cal.com</span>
-          <span class="badge purple">Webhook</span>
-        </div>
-        <div class="project-actions">
-          <button class="action-btn" onclick="toggleCanvas(3)">⬡ View Workflow</button>
-          <button class="action-btn" onclick="openModal(3)">↗ Case Study</button>
-        </div>
-      </div>
-      <div class="canvas-window" id="canvas-3">
-        <div class="canvas-titlebar">
-          <div class="canvas-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
-          <span class="canvas-wf-name">Cal.com Booking Handler</span>
-          <div class="canvas-toolbar">
-            <button class="canvas-theme-btn" onclick="toggleCanvasTheme(3)" title="Toggle light/dark">◐</button>
-            <button onclick="zoomCanvas(3,-0.15)">−</button>
-            <button onclick="zoomCanvas(3,0.15)">+</button>
-            <button onclick="fitCanvas(3)">fit</button>
-            <button onclick="expandCanvas(3)">⤢</button>
+      <!-- PROJECT 2: AI Lead Qualification -->
+      <div class="project-card" id="card-1">
+        <div class="project-header">
+          <div class="project-title">AI Lead Qualification & Instant Follow-up</div>
+          <div class="project-desc">Form submission triggers a Gemini AI agent that scores the lead Hot/Warm/Cold,
+            writes a personalised email, sends it via Gmail, saves to Airtable, and fires a WhatsApp alert for hot leads
+            — all in under 30 seconds.</div>
+          <div class="project-tags">
+            <span class="badge n8n">n8n</span>
+            <span class="badge ai">Gemini AI</span>
+            <span class="badge purple">Agent</span>
+            <span class="badge live">live</span>
+          </div>
+          <div class="project-actions">
+            <button class="action-btn" onclick="toggleCanvas(1)">⬡ View Workflow</button>
+            <button class="action-btn" onclick="openModal(1)">↗ Case Study</button>
           </div>
         </div>
-        <div class="canvas-body" id="body-3">
-          <svg class="canvas-svg" id="svg-3"></svg>
-          <div class="canvas-viewport" id="vp-3"></div>
+        <div class="canvas-window" id="canvas-1">
+          <div class="canvas-titlebar">
+            <div class="canvas-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="canvas-wf-name">AI Lead Qualification & Follow-up</span>
+            <div class="canvas-toolbar">
+              <button class="canvas-theme-btn" onclick="toggleCanvasTheme(1)" title="Toggle light/dark">◐</button>
+              <button onclick="zoomCanvas(1,-0.15)">−</button>
+              <button onclick="zoomCanvas(1,0.15)">+</button>
+              <button onclick="fitCanvas(1)">fit</button>
+              <button onclick="expandCanvas(1)">⤢</button>
+            </div>
+          </div>
+          <div class="canvas-body" id="body-1">
+            <svg class="canvas-svg" id="svg-1"></svg>
+            <div class="canvas-viewport" id="vp-1"></div>
+          </div>
         </div>
       </div>
-    </div>
 
-  </section>
+      <!-- PROJECT 3: Drip Sequence -->
+      <div class="project-card" id="card-2">
+        <div class="project-header">
+          <div class="project-title">Automated Email Drip Sequence</div>
+          <div class="project-desc">Every morning at 9am, checks Airtable for Warm and Cold leads ready for their next
+            email. Sends timed follow-ups across 3–7 days, then marks the sequence complete. Zero manual follow-up
+            needed.</div>
+          <div class="project-tags">
+            <span class="badge n8n">n8n</span>
+            <span class="badge ai">Airtable</span>
+            <span class="badge live">live</span>
+          </div>
+          <div class="project-actions">
+            <button class="action-btn" onclick="toggleCanvas(2)">⬡ View Workflow</button>
+            <button class="action-btn" onclick="openModal(2)">↗ Case Study</button>
+          </div>
+        </div>
+        <div class="canvas-window" id="canvas-2">
+          <div class="canvas-titlebar">
+            <div class="canvas-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="canvas-wf-name">Automated Drip Sequence</span>
+            <div class="canvas-toolbar">
+              <button class="canvas-theme-btn" onclick="toggleCanvasTheme(2)" title="Toggle light/dark">◐</button>
+              <button onclick="zoomCanvas(2,-0.15)">−</button>
+              <button onclick="zoomCanvas(2,0.15)">+</button>
+              <button onclick="fitCanvas(2)">fit</button>
+              <button onclick="expandCanvas(2)">⤢</button>
+            </div>
+          </div>
+          <div class="canvas-body" id="body-2">
+            <svg class="canvas-svg" id="svg-2"></svg>
+            <div class="canvas-viewport" id="vp-2"></div>
+          </div>
+        </div>
+      </div>
 
-  <!-- STACK -->
-  <section id="stack">
-    <div class="section-label">Tech Stack</div>
-    <div class="stack-list">
-      <div class="stack-row">
-        <span class="stack-name">n8n</span>
-        <span class="stack-role">workflow orchestration</span>
+      <!-- PROJECT 4: Booking Handler -->
+      <div class="project-card" id="card-3">
+        <div class="project-header">
+          <div class="project-title">Cal.com Booking Automation</div>
+          <div class="project-desc">When a prospect books a call via Cal.com, the webhook fires, booking details are
+            extracted and saved to a "Booked Calls" Airtable table, a confirmation email is sent, and a WhatsApp alert
+            notifies the host instantly.</div>
+          <div class="project-tags">
+            <span class="badge n8n">n8n</span>
+            <span class="badge ai">Cal.com</span>
+            <span class="badge purple">Webhook</span>
+          </div>
+          <div class="project-actions">
+            <button class="action-btn" onclick="toggleCanvas(3)">⬡ View Workflow</button>
+            <button class="action-btn" onclick="openModal(3)">↗ Case Study</button>
+          </div>
+        </div>
+        <div class="canvas-window" id="canvas-3">
+          <div class="canvas-titlebar">
+            <div class="canvas-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+            <span class="canvas-wf-name">Cal.com Booking Handler</span>
+            <div class="canvas-toolbar">
+              <button class="canvas-theme-btn" onclick="toggleCanvasTheme(3)" title="Toggle light/dark">◐</button>
+              <button onclick="zoomCanvas(3,-0.15)">−</button>
+              <button onclick="zoomCanvas(3,0.15)">+</button>
+              <button onclick="fitCanvas(3)">fit</button>
+              <button onclick="expandCanvas(3)">⤢</button>
+            </div>
+          </div>
+          <div class="canvas-body" id="body-3">
+            <svg class="canvas-svg" id="svg-3"></svg>
+            <div class="canvas-viewport" id="vp-3"></div>
+          </div>
+        </div>
       </div>
-      <div class="stack-row">
-        <span class="stack-name">Gemini / GPT-4o</span>
-        <span class="stack-role">LLM & AI agents</span>
-      </div>
-      <div class="stack-row">
-        <span class="stack-name">Python / FastAPI</span>
-        <span class="stack-role">backend & custom APIs</span>
-      </div>
-      <div class="stack-row">
-        <span class="stack-name">Airtable</span>
-        <span class="stack-role">data layer & CRM</span>
-      </div>
-      <div class="stack-row">
-        <span class="stack-name">GoHighLevel (GHL)</span>
-        <span class="stack-role">CRM & marketing automation</span>
-      </div>
-      <div class="stack-row">
-        <span class="stack-name">HubSpot</span>
-        <span class="stack-role">CRM & pipeline management</span>
-      </div>
-      <div class="stack-row">
-        <span class="stack-name">Gmail / Cal.com</span>
-        <span class="stack-role">communication & booking</span>
-      </div>
-      <div class="stack-row">
-        <span class="stack-name">WhatsApp (Evolution API)</span>
-        <span class="stack-role">real-time alerts</span>
-      </div>
-    </div>
-  </section>
 
-  <footer>
-    <p>© MMXXVI <span class="heart">♥</span> Andrew.</p>
-    <span class="availability">open to projects</span>
-  </footer>
-</div>
+    </section>
 
-<!-- CASE STUDY MODALS -->
-<div class="modal-overlay" id="modal-0" onclick="closeModal(0, event)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal(0)">✕ close</button>
-    <div class="modal-tag">Case Study · LinkedIn Automation</div>
-    <div class="modal-title">LinkedIn Auto-Poster</div>
-    <div class="modal-subtitle">A fully automated content pipeline that writes and publishes a LinkedIn post every morning without any human input.</div>
-    <div class="modal-stat-grid">
-      <div class="modal-stat"><div class="val">9am</div><div class="lbl">posts daily, on schedule</div></div>
-      <div class="modal-stat"><div class="val">0</div><div class="lbl">manual steps required</div></div>
-      <div class="modal-stat"><div class="val">100%</div><div class="lbl">failure visibility via Slack</div></div>
-    </div>
-    <div class="modal-body">
-      <div class="modal-section-title">The Problem</div>
-      <p>Consistent LinkedIn posting is one of the highest-ROI activities for consultants and coaches — but it requires daily effort. Most professionals either post inconsistently or outsource it at high cost. The client needed to stay visible on LinkedIn without spending time on it every morning.</p>
-      <div class="modal-divider"></div>
-      <div class="modal-section-title">What I Built</div>
-      <p>A scheduled n8n workflow triggers at 9am daily. It calls the <strong>OpenAI API</strong> with a crafted prompt to generate a LinkedIn-optimised post. The content is extracted and validated — if empty or malformed, the error path fires immediately.</p>
-      <p>On success, the post is published via the <strong>LinkedIn API</strong>, and a full log entry is written to <strong>Airtable</strong> — including the post content, word count, model used, post URL, and timestamp.</p>
-      <p>On failure, a formatted error message is built and sent to a <strong>Slack webhook</strong> so the issue gets noticed and fixed before the next day's post. Failed attempts are also logged to Airtable with their error reason.</p>
-      <div class="modal-divider"></div>
-      <div class="modal-section-title">Why It Works</div>
-      <p>The dual logging path — success and failure — means the client always knows what's happening. The workflow doesn't just automate the task, it automates the monitoring too. One system handles writing, publishing, logging, and alerting.</p>
-    </div>
-    <div class="modal-stack">
-      <span>n8n</span><span>OpenAI</span><span>LinkedIn API</span><span>Airtable</span><span>Slack Webhooks</span>
+    <!-- STACK -->
+    <section id="stack">
+      <div class="section-label">Tech Stack</div>
+      <div class="stack-list">
+        <div class="stack-row">
+          <span class="stack-name">n8n</span>
+          <span class="stack-role">workflow orchestration</span>
+        </div>
+        <div class="stack-row">
+          <span class="stack-name">Gemini / GPT-4o</span>
+          <span class="stack-role">LLM & AI agents</span>
+        </div>
+        <div class="stack-row">
+          <span class="stack-name">Python / FastAPI</span>
+          <span class="stack-role">backend & custom APIs</span>
+        </div>
+        <div class="stack-row">
+          <span class="stack-name">Airtable</span>
+          <span class="stack-role">data layer & CRM</span>
+        </div>
+        <div class="stack-row">
+          <span class="stack-name">GoHighLevel (GHL)</span>
+          <span class="stack-role">CRM & marketing automation</span>
+        </div>
+        <div class="stack-row">
+          <span class="stack-name">HubSpot</span>
+          <span class="stack-role">CRM & pipeline management</span>
+        </div>
+        <div class="stack-row">
+          <span class="stack-name">Gmail / Cal.com</span>
+          <span class="stack-role">communication & booking</span>
+        </div>
+        <div class="stack-row">
+          <span class="stack-name">WhatsApp (Evolution API)</span>
+          <span class="stack-role">real-time alerts</span>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>© MMXXVI <span class="heart">♥</span> Andrew.</p>
+      <span class="availability">open to projects</span>
+    </footer>
+  </div>
+
+  <!-- CASE STUDY MODALS -->
+  <div class="modal-overlay" id="modal-0" onclick="closeModal(0, event)">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal(0)">✕ close</button>
+      <div class="modal-tag">Case Study · LinkedIn Automation</div>
+      <div class="modal-title">LinkedIn Auto-Poster</div>
+      <div class="modal-subtitle">A fully automated content pipeline that writes and publishes a LinkedIn post every
+        morning without any human input.</div>
+      <div class="modal-stat-grid">
+        <div class="modal-stat">
+          <div class="val">9am</div>
+          <div class="lbl">posts daily, on schedule</div>
+        </div>
+        <div class="modal-stat">
+          <div class="val">0</div>
+          <div class="lbl">manual steps required</div>
+        </div>
+        <div class="modal-stat">
+          <div class="val">100%</div>
+          <div class="lbl">failure visibility via Slack</div>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-section-title">The Problem</div>
+        <p>Consistent LinkedIn posting is one of the highest-ROI activities for consultants and coaches — but it
+          requires daily effort. Most professionals either post inconsistently or outsource it at high cost. The client
+          needed to stay visible on LinkedIn without spending time on it every morning.</p>
+        <div class="modal-divider"></div>
+        <div class="modal-section-title">What I Built</div>
+        <p>A scheduled n8n workflow triggers at 9am daily. It calls the <strong>OpenAI API</strong> with a crafted
+          prompt to generate a LinkedIn-optimised post. The content is extracted and validated — if empty or malformed,
+          the error path fires immediately.</p>
+        <p>On success, the post is published via the <strong>LinkedIn API</strong>, and a full log entry is written to
+          <strong>Airtable</strong> — including the post content, word count, model used, post URL, and timestamp.</p>
+        <p>On failure, a formatted error message is built and sent to a <strong>Slack webhook</strong> so the issue gets
+          noticed and fixed before the next day's post. Failed attempts are also logged to Airtable with their error
+          reason.</p>
+        <div class="modal-divider"></div>
+        <div class="modal-section-title">Why It Works</div>
+        <p>The dual logging path — success and failure — means the client always knows what's happening. The workflow
+          doesn't just automate the task, it automates the monitoring too. One system handles writing, publishing,
+          logging, and alerting.</p>
+      </div>
+      <div class="modal-stack">
+        <span>n8n</span><span>OpenAI</span><span>LinkedIn API</span><span>Airtable</span><span>Slack Webhooks</span>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="modal-overlay" id="modal-1" onclick="closeModal(1, event)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal(1)">✕ close</button>
-    <div class="modal-tag">Case Study · CRM Automation</div>
-    <div class="modal-title">AI Lead Qualification & Instant Follow-up</div>
-    <div class="modal-subtitle">An AI agent that reads every inbound lead, scores their intent, and sends a personalised email — all before a human has opened their laptop.</div>
-    <div class="modal-stat-grid">
-      <div class="modal-stat"><div class="val">&lt;30s</div><div class="lbl">form to personalised email</div></div>
-      <div class="modal-stat"><div class="val">3-tier</div><div class="lbl">Hot / Warm / Cold routing</div></div>
-      <div class="modal-stat"><div class="val">0</div><div class="lbl">duplicate leads processed</div></div>
-    </div>
-    <div class="modal-body">
-      <div class="modal-section-title">The Problem</div>
-      <p>The client — a business coach — was receiving leads from an n8n form and manually reading, qualifying, and replying to each one. Response time was slow, follow-up was inconsistent, and hot leads were being treated the same as cold ones.</p>
-      <div class="modal-divider"></div>
-      <div class="modal-section-title">What I Built</div>
-      <p>When a form is submitted, the system first checks <strong>Airtable</strong> for the email — if the lead already exists, it stops immediately to prevent duplicate processing. New leads are passed to a <strong>Gemini AI agent</strong> with a detailed scoring rubric.</p>
-      <p>The agent reads the lead's pain point, business context, and readiness to invest, then outputs a JSON object with a category (Hot/Warm/Cold), a 0–100 score, a one-sentence reason, and a fully written personalised follow-up email with the correct tone per category.</p>
-      <p>A <strong>Switch node</strong> routes by temperature. Hot leads get an email with a Cal.com booking link, a record saved to Airtable with status "Call Booked", and an instant <strong>WhatsApp alert</strong> via Evolution API. Warm and Cold leads get their own toned-down emails and Airtable records with "Engaged" status.</p>
-      <p>A custom <strong>Code node</strong> validates and normalises the AI output before it touches any downstream node — handling key mismatches, case variations, and malformed JSON so the workflow never breaks on an unexpected AI response.</p>
-      <div class="modal-divider"></div>
-      <div class="modal-section-title">Why It Works</div>
-      <p>The key insight is that not every lead deserves the same response. The AI doesn't just write emails — it makes a real business decision about how urgently to treat each person. The client now wakes up to replied leads, scored records, and WhatsApp pings for the ones that matter most.</p>
-    </div>
-    <div class="modal-stack">
-      <span>n8n</span><span>Gemini AI</span><span>Gmail</span><span>Airtable</span><span>WhatsApp (Evolution API)</span><span>Code Node</span>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modal-2" onclick="closeModal(2, event)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal(2)">✕ close</button>
-    <div class="modal-tag">Case Study · Email Sequences</div>
-    <div class="modal-title">Automated Email Drip Sequence</div>
-    <div class="modal-subtitle">A time-aware follow-up system that continues the conversation with Warm and Cold leads over 3–7 days, without any manual scheduling.</div>
-    <div class="modal-stat-grid">
-      <div class="modal-stat"><div class="val">3</div><div class="lbl">emails for warm leads</div></div>
-      <div class="modal-stat"><div class="val">2</div><div class="lbl">emails for cold leads</div></div>
-      <div class="modal-stat"><div class="val">Daily</div><div class="lbl">trigger checks Airtable</div></div>
-    </div>
-    <div class="modal-body">
-      <div class="modal-section-title">The Problem</div>
-      <p>After the qualification workflow fires the first email, most leads don't reply immediately. Without a follow-up sequence, warm and cold leads go cold permanently. The client needed a system that would continue nurturing leads on a schedule without any manual intervention.</p>
-      <div class="modal-divider"></div>
-      <div class="modal-section-title">What I Built</div>
-      <p>This workflow is the second half of the lead system. It runs every morning at 9am and makes three parallel Airtable queries — one for Warm leads ready for Email 2 (3+ days since Email 1), one for Warm leads ready for Email 3 (4+ days since Email 2), and one for Cold leads ready for their final email (5+ days since Email 1).</p>
-      <p>Each branch sends a different email with the correct tone. <strong>Warm Email 2</strong> is a social proof email — it shares a relatable insight about entrepreneurs who feel stuck and positions coaching as the solution. <strong>Warm Email 3</strong> is a soft close — no pressure, just an open door. <strong>Cold Email 2</strong> is a one-line final check-in, no selling.</p>
-      <p>After each send, the Airtable record is updated: Email Sequence advances to the next stage and the sent timestamp is recorded. This prevents the same lead from receiving an email twice and is how the daily trigger knows exactly who's ready for what.</p>
-      <div class="modal-divider"></div>
-      <div class="modal-section-title">Why It Works</div>
-      <p>The system uses Airtable as its source of truth. The filter formula checks both the sequence stage and the exact date, so timing is precise. The workflow doesn't need to store state anywhere else — the database <em>is</em> the state machine. Leads move through the sequence automatically and stop when done.</p>
-    </div>
-    <div class="modal-stack">
-      <span>n8n</span><span>Airtable</span><span>Gmail</span><span>Schedule Trigger</span>
+  <div class="modal-overlay" id="modal-1" onclick="closeModal(1, event)">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal(1)">✕ close</button>
+      <div class="modal-tag">Case Study · CRM Automation</div>
+      <div class="modal-title">AI Lead Qualification & Instant Follow-up</div>
+      <div class="modal-subtitle">An AI agent that reads every inbound lead, scores their intent, and sends a
+        personalised email — all before a human has opened their laptop.</div>
+      <div class="modal-stat-grid">
+        <div class="modal-stat">
+          <div class="val">&lt;30s</div>
+          <div class="lbl">form to personalised email</div>
+        </div>
+        <div class="modal-stat">
+          <div class="val">3-tier</div>
+          <div class="lbl">Hot / Warm / Cold routing</div>
+        </div>
+        <div class="modal-stat">
+          <div class="val">0</div>
+          <div class="lbl">duplicate leads processed</div>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-section-title">The Problem</div>
+        <p>The client — a business coach — was receiving leads from an n8n form and manually reading, qualifying, and
+          replying to each one. Response time was slow, follow-up was inconsistent, and hot leads were being treated the
+          same as cold ones.</p>
+        <div class="modal-divider"></div>
+        <div class="modal-section-title">What I Built</div>
+        <p>When a form is submitted, the system first checks <strong>Airtable</strong> for the email — if the lead
+          already exists, it stops immediately to prevent duplicate processing. New leads are passed to a <strong>Gemini
+            AI agent</strong> with a detailed scoring rubric.</p>
+        <p>The agent reads the lead's pain point, business context, and readiness to invest, then outputs a JSON object
+          with a category (Hot/Warm/Cold), a 0–100 score, a one-sentence reason, and a fully written personalised
+          follow-up email with the correct tone per category.</p>
+        <p>A <strong>Switch node</strong> routes by temperature. Hot leads get an email with a Cal.com booking link, a
+          record saved to Airtable with status "Call Booked", and an instant <strong>WhatsApp alert</strong> via
+          Evolution API. Warm and Cold leads get their own toned-down emails and Airtable records with "Engaged" status.
+        </p>
+        <p>A custom <strong>Code node</strong> validates and normalises the AI output before it touches any downstream
+          node — handling key mismatches, case variations, and malformed JSON so the workflow never breaks on an
+          unexpected AI response.</p>
+        <div class="modal-divider"></div>
+        <div class="modal-section-title">Why It Works</div>
+        <p>The key insight is that not every lead deserves the same response. The AI doesn't just write emails — it
+          makes a real business decision about how urgently to treat each person. The client now wakes up to replied
+          leads, scored records, and WhatsApp pings for the ones that matter most.</p>
+      </div>
+      <div class="modal-stack">
+        <span>n8n</span><span>Gemini AI</span><span>Gmail</span><span>Airtable</span><span>WhatsApp (Evolution
+          API)</span><span>Code Node</span>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="modal-overlay" id="modal-3" onclick="closeModal(3, event)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal(3)">✕ close</button>
-    <div class="modal-tag">Case Study · Booking Automation</div>
-    <div class="modal-title">Cal.com Booking Automation</div>
-    <div class="modal-subtitle">The final piece of the lead system. When a prospect books a call, everything is handled automatically — confirmation, logging, and instant host notification.</div>
-    <div class="modal-stat-grid">
-      <div class="modal-stat"><div class="val">Real-time</div><div class="lbl">webhook triggers on booking</div></div>
-      <div class="modal-stat"><div class="val">2 tables</div><div class="lbl">Airtable sync per booking</div></div>
-      <div class="modal-stat"><div class="val">WhatsApp</div><div class="lbl">host notified instantly</div></div>
-    </div>
-    <div class="modal-body">
-      <div class="modal-section-title">The Problem</div>
-      <p>When a hot lead books a discovery call, the host was manually checking Cal.com for new bookings, copying details into Airtable, and sending a confirmation email. This was slow, error-prone, and meant the host sometimes didn't know a call was booked until they opened the app.</p>
-      <div class="modal-divider"></div>
-      <div class="modal-section-title">What I Built</div>
-      <p>Cal.com fires a webhook to n8n the moment a booking is created. A <strong>Code node</strong> extracts the relevant fields from the complex webhook payload — attendee name, email, timezone, meeting URL, start/end time, and booking ID — into a clean flat object.</p>
-      <p>The attendee email is used to look up the matching lead record in <strong>Airtable</strong>. Their existing data (name, company, phone, AI score) is pulled and combined with the booking details to create a new record in the <strong>"Booked Calls"</strong> table, marked as "Upcoming".</p>
-      <p>Two actions fire in parallel: a <strong>confirmation email</strong> via Gmail is sent to the attendee with the meeting link, time, and what to expect — and a <strong>WhatsApp message</strong> via Evolution API alerts the host with the attendee's name, phone, email, and meeting time.</p>
-      <div class="modal-divider"></div>
-      <div class="modal-section-title">Why It Works</div>
-      <p>This completes the full lead lifecycle: form → qualify → nurture → book → confirm. Every step is automated. The host only needs to show up to the call. The attendee gets a professional confirmation within seconds. And Airtable always reflects the current state of every lead and booking.</p>
-    </div>
-    <div class="modal-stack">
-      <span>n8n</span><span>Cal.com Webhook</span><span>Airtable</span><span>Gmail</span><span>WhatsApp (Evolution API)</span><span>Code Node</span>
+  <div class="modal-overlay" id="modal-2" onclick="closeModal(2, event)">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal(2)">✕ close</button>
+      <div class="modal-tag">Case Study · Email Sequences</div>
+      <div class="modal-title">Automated Email Drip Sequence</div>
+      <div class="modal-subtitle">A time-aware follow-up system that continues the conversation with Warm and Cold leads
+        over 3–7 days, without any manual scheduling.</div>
+      <div class="modal-stat-grid">
+        <div class="modal-stat">
+          <div class="val">3</div>
+          <div class="lbl">emails for warm leads</div>
+        </div>
+        <div class="modal-stat">
+          <div class="val">2</div>
+          <div class="lbl">emails for cold leads</div>
+        </div>
+        <div class="modal-stat">
+          <div class="val">Daily</div>
+          <div class="lbl">trigger checks Airtable</div>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-section-title">The Problem</div>
+        <p>After the qualification workflow fires the first email, most leads don't reply immediately. Without a
+          follow-up sequence, warm and cold leads go cold permanently. The client needed a system that would continue
+          nurturing leads on a schedule without any manual intervention.</p>
+        <div class="modal-divider"></div>
+        <div class="modal-section-title">What I Built</div>
+        <p>This workflow is the second half of the lead system. It runs every morning at 9am and makes three parallel
+          Airtable queries — one for Warm leads ready for Email 2 (3+ days since Email 1), one for Warm leads ready for
+          Email 3 (4+ days since Email 2), and one for Cold leads ready for their final email (5+ days since Email 1).
+        </p>
+        <p>Each branch sends a different email with the correct tone. <strong>Warm Email 2</strong> is a social proof
+          email — it shares a relatable insight about entrepreneurs who feel stuck and positions coaching as the
+          solution. <strong>Warm Email 3</strong> is a soft close — no pressure, just an open door. <strong>Cold Email
+            2</strong> is a one-line final check-in, no selling.</p>
+        <p>After each send, the Airtable record is updated: Email Sequence advances to the next stage and the sent
+          timestamp is recorded. This prevents the same lead from receiving an email twice and is how the daily trigger
+          knows exactly who's ready for what.</p>
+        <div class="modal-divider"></div>
+        <div class="modal-section-title">Why It Works</div>
+        <p>The system uses Airtable as its source of truth. The filter formula checks both the sequence stage and the
+          exact date, so timing is precise. The workflow doesn't need to store state anywhere else — the database
+          <em>is</em> the state machine. Leads move through the sequence automatically and stop when done.</p>
+      </div>
+      <div class="modal-stack">
+        <span>n8n</span><span>Airtable</span><span>Gmail</span><span>Schedule Trigger</span>
+      </div>
     </div>
   </div>
-</div>
 
-<script>
-// ── WORKFLOW DATA ──
-// Each workflow is defined as a list of nodes and connections
-// Nodes: { id, name, type, x, y }
-// Connections: [ [srcId, dstId, outputIndex] ]
+  <div class="modal-overlay" id="modal-3" onclick="closeModal(3, event)">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal(3)">✕ close</button>
+      <div class="modal-tag">Case Study · Booking Automation</div>
+      <div class="modal-title">Cal.com Booking Automation</div>
+      <div class="modal-subtitle">The final piece of the lead system. When a prospect books a call, everything is
+        handled automatically — confirmation, logging, and instant host notification.</div>
+      <div class="modal-stat-grid">
+        <div class="modal-stat">
+          <div class="val">Real-time</div>
+          <div class="lbl">webhook triggers on booking</div>
+        </div>
+        <div class="modal-stat">
+          <div class="val">2 tables</div>
+          <div class="lbl">Airtable sync per booking</div>
+        </div>
+        <div class="modal-stat">
+          <div class="val">WhatsApp</div>
+          <div class="lbl">host notified instantly</div>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-section-title">The Problem</div>
+        <p>When a hot lead books a discovery call, the host was manually checking Cal.com for new bookings, copying
+          details into Airtable, and sending a confirmation email. This was slow, error-prone, and meant the host
+          sometimes didn't know a call was booked until they opened the app.</p>
+        <div class="modal-divider"></div>
+        <div class="modal-section-title">What I Built</div>
+        <p>Cal.com fires a webhook to n8n the moment a booking is created. A <strong>Code node</strong> extracts the
+          relevant fields from the complex webhook payload — attendee name, email, timezone, meeting URL, start/end
+          time, and booking ID — into a clean flat object.</p>
+        <p>The attendee email is used to look up the matching lead record in <strong>Airtable</strong>. Their existing
+          data (name, company, phone, AI score) is pulled and combined with the booking details to create a new record
+          in the <strong>"Booked Calls"</strong> table, marked as "Upcoming".</p>
+        <p>Two actions fire in parallel: a <strong>confirmation email</strong> via Gmail is sent to the attendee with
+          the meeting link, time, and what to expect — and a <strong>WhatsApp message</strong> via Evolution API alerts
+          the host with the attendee's name, phone, email, and meeting time.</p>
+        <div class="modal-divider"></div>
+        <div class="modal-section-title">Why It Works</div>
+        <p>This completes the full lead lifecycle: form → qualify → nurture → book → confirm. Every step is automated.
+          The host only needs to show up to the call. The attendee gets a professional confirmation within seconds. And
+          Airtable always reflects the current state of every lead and booking.</p>
+      </div>
+      <div class="modal-stack">
+        <span>n8n</span><span>Cal.com Webhook</span><span>Airtable</span><span>Gmail</span><span>WhatsApp (Evolution
+          API)</span><span>Code Node</span>
+      </div>
+    </div>
+  </div>
 
-const NODE_CONFIG = {
-  scheduleTrigger:      { icon: '⏰', color: '#e8a838', label: 'Schedule' },
-  webhook:              { icon: '🪝', color: '#e8a838', label: 'Webhook' },
-  formTrigger:          { icon: '📋', color: '#e8a838', label: 'Form Trigger' },
-  manualTrigger:        { icon: '▶', color: '#e8a838', label: 'Manual Trigger' },
-  agent:                { icon: '🤖', color: '#a855f7', label: 'AI Agent' },
-  lmChatGoogleGemini:   { icon: '✦', color: '#a855f7', label: 'Gemini' },
-  lmChatOpenAi:         { icon: '✦', color: '#a855f7', label: 'OpenAI' },
-  openAi:               { icon: '✦', color: '#a855f7', label: 'OpenAI' },
-  'if':                 { icon: '⑂', color: '#22c55e', label: 'IF' },
-  switch:               { icon: '⇌', color: '#22c55e', label: 'Switch' },
-  set:                  { icon: '✎', color: '#22c55e', label: 'Set' },
-  code:                 { icon: '</>', color: '#22c55e', label: 'Code' },
-  merge:                { icon: '⊕', color: '#22c55e', label: 'Merge' },
-  noOp:                 { icon: '○', color: '#475569', label: 'No Op' },
-  gmail:                { icon: '✉', color: '#ea4335', label: 'Gmail' },
-  linkedIn:             { icon: 'in', color: '#0a66c2', label: 'LinkedIn' },
-  airtable:             { icon: '⬡', color: '#fcb400', label: 'Airtable' },
-  httpRequest:          { icon: '↗', color: '#4c87e8', label: 'HTTP Request' },
-};
+  <script>
+    // ── WORKFLOW DATA ──
+    // Each workflow is defined as a list of nodes and connections
+    // Nodes: { id, name, type, x, y }
+    // Connections: [ [srcId, dstId, outputIndex] ]
 
-function getNodeCfg(type) {
-  const short = type.split('.').pop();
-  return NODE_CONFIG[short] || { icon: '⬡', color: '#475569', label: short };
-}
+    const NODE_CONFIG = {
+      scheduleTrigger: { icon: '⏰', color: '#e8a838', label: 'Schedule' },
+      webhook: { icon: '🪝', color: '#e8a838', label: 'Webhook' },
+      formTrigger: { icon: '📋', color: '#e8a838', label: 'Form Trigger' },
+      manualTrigger: { icon: '▶', color: '#e8a838', label: 'Manual Trigger' },
+      agent: { icon: '🤖', color: '#a855f7', label: 'AI Agent' },
+      lmChatGoogleGemini: { icon: '✦', color: '#a855f7', label: 'Gemini' },
+      lmChatOpenAi: { icon: '✦', color: '#a855f7', label: 'OpenAI' },
+      openAi: { icon: '✦', color: '#a855f7', label: 'OpenAI' },
+      'if': { icon: '⑂', color: '#22c55e', label: 'IF' },
+      switch: { icon: '⇌', color: '#22c55e', label: 'Switch' },
+      set: { icon: '✎', color: '#22c55e', label: 'Set' },
+      code: { icon: '</>', color: '#22c55e', label: 'Code' },
+      merge: { icon: '⊕', color: '#22c55e', label: 'Merge' },
+      noOp: { icon: '○', color: '#475569', label: 'No Op' },
+      gmail: { icon: '✉', color: '#ea4335', label: 'Gmail' },
+      linkedIn: { icon: 'in', color: '#0a66c2', label: 'LinkedIn' },
+      airtable: { icon: '⬡', color: '#fcb400', label: 'Airtable' },
+      httpRequest: { icon: '↗', color: '#4c87e8', label: 'HTTP Request' },
+    };
 
-// WORKFLOW DEFINITIONS (simplified from JSON, positioned for canvas)
-const WORKFLOWS = [
-  // 0: LinkedIn Auto-Poster
-  {
-    nodes: [
-      { id:'a', name:'Every Day at 9am', type:'n8n-nodes-base.scheduleTrigger', x:20, y:80 },
-      { id:'b', name:'Generate Post (OpenAI)', type:'n8n-nodes-base.openAi', x:200, y:80 },
-      { id:'c', name:'Extract Post Content', type:'n8n-nodes-base.set', x:380, y:80 },
-      { id:'d', name:'Content Valid?', type:'n8n-nodes-base.if', x:560, y:80 },
-      { id:'e', name:'Post to LinkedIn', type:'n8n-nodes-base.linkedIn', x:740, y:20 },
-      { id:'f', name:'Airtable — Log Success', type:'n8n-nodes-base.airtable', x:920, y:20 },
-      { id:'g', name:'Format Error Details', type:'n8n-nodes-base.set', x:740, y:160 },
-      { id:'h', name:'Airtable — Log Failed', type:'n8n-nodes-base.airtable', x:920, y:160 },
-      { id:'i', name:'Slack Alert — Post Failed', type:'n8n-nodes-base.httpRequest', x:1100, y:160 },
-    ],
-    conns: [
-      ['a','b'],['b','c'],['c','d'],
-      ['d','e',0],['d','g',1],
-      ['e','f'],['e','g'],
-      ['g','h'],['h','i'],
-    ]
-  },
-  // 1: Lead Qualification
-  {
-    nodes: [
-      { id:'a', name:'On form submission', type:'n8n-nodes-base.formTrigger', x:20, y:100 },
-      { id:'b', name:'Search Airtable for Existing Email', type:'n8n-nodes-base.airtable', x:200, y:100 },
-      { id:'c', name:'Is This a New Lead?', type:'n8n-nodes-base.if', x:380, y:100 },
-      { id:'d', name:'Google Gemini Model', type:'@n8n/n8n-nodes-langchain.lmChatGoogleGemini', x:460, y:240 },
-      { id:'e', name:'AI Lead Scoring Agent', type:'@n8n/n8n-nodes-langchain.agent', x:560, y:100 },
-      { id:'f', name:'Parse & Validate AI Response', type:'n8n-nodes-base.code', x:740, y:100 },
-      { id:'g', name:'Route by Lead Temperature', type:'n8n-nodes-base.switch', x:920, y:100 },
-      { id:'h', name:'Send Hot Lead Email', type:'n8n-nodes-base.gmail', x:1100, y:20 },
-      { id:'i', name:'Send Warm Lead Email', type:'n8n-nodes-base.gmail', x:1100, y:100 },
-      { id:'j', name:'Send Cold Lead Email', type:'n8n-nodes-base.gmail', x:1100, y:180 },
-      { id:'k', name:'Save Hot Lead to Airtable', type:'n8n-nodes-base.airtable', x:1280, y:20 },
-      { id:'l', name:'WhatsApp Alert', type:'n8n-nodes-base.httpRequest', x:1280, y:80 },
-      { id:'m', name:'Save Warm Lead to Airtable', type:'n8n-nodes-base.airtable', x:1280, y:140 },
-      { id:'n', name:'Save Cold Lead to Airtable', type:'n8n-nodes-base.airtable', x:1280, y:200 },
-    ],
-    conns: [
-      ['a','b'],['b','c'],
-      ['c','e',1],['d','e'],
-      ['e','f'],['f','g'],
-      ['g','h',0],['g','i',1],['g','j',2],
-      ['h','k'],['h','l'],
-      ['i','m'],['j','n'],
-    ]
-  },
-  // 2: Drip Sequence
-  {
-    nodes: [
-      { id:'a', name:'Daily 9am Trigger', type:'n8n-nodes-base.scheduleTrigger', x:20, y:120 },
-      { id:'b', name:'Find Warm Leads Email 2', type:'n8n-nodes-base.airtable', x:200, y:40 },
-      { id:'c', name:'Find Warm Leads Email 3', type:'n8n-nodes-base.airtable', x:200, y:120 },
-      { id:'d', name:'Find Cold Leads Email 2', type:'n8n-nodes-base.airtable', x:200, y:200 },
-      { id:'e', name:'Send Warm Email 2 (Proof)', type:'n8n-nodes-base.gmail', x:420, y:40 },
-      { id:'f', name:'Send Warm Email 3 (Soft CTA)', type:'n8n-nodes-base.gmail', x:420, y:120 },
-      { id:'g', name:'Send Cold Email 2 (Final)', type:'n8n-nodes-base.gmail', x:420, y:200 },
-      { id:'h', name:'Update Warm Lead → Email 2', type:'n8n-nodes-base.airtable', x:640, y:40 },
-      { id:'i', name:'Update Warm Lead → Done', type:'n8n-nodes-base.airtable', x:640, y:120 },
-      { id:'j', name:'Update Cold Lead → Done', type:'n8n-nodes-base.airtable', x:640, y:200 },
-    ],
-    conns: [
-      ['a','b'],['a','c'],['a','d'],
-      ['b','e'],['c','f'],['d','g'],
-      ['e','h'],['f','i'],['g','j'],
-    ]
-  },
-  // 3: Cal.com Booking
-  {
-    nodes: [
-      { id:'a', name:'Cal.com Booking Webhook', type:'n8n-nodes-base.webhook', x:20, y:100 },
-      { id:'b', name:'Extract Booking Details', type:'n8n-nodes-base.code', x:200, y:100 },
-      { id:'c', name:'Find Lead by Email in Airtable', type:'n8n-nodes-base.airtable', x:380, y:100 },
-      { id:'d', name:"Save to 'Booked Calls' Table", type:'n8n-nodes-base.airtable', x:560, y:100 },
-      { id:'e', name:'Send Booking Confirmation Email', type:'n8n-nodes-base.gmail', x:740, y:40 },
-      { id:'f', name:'WhatsApp Alert to Host', type:'n8n-nodes-base.httpRequest', x:740, y:160 },
-    ],
-    conns: [
-      ['a','b'],['b','c'],['c','d'],
-      ['d','e'],['d','f'],
-    ]
-  },
-];
-
-// ── STATE ──
-const state = WORKFLOWS.map(() => ({ scale: 0.7, panX: 20, panY: 20, isPanning: false, panStart: {x:0,y:0}, expanded: false }));
-const NODE_W = 140, NODE_H = 68;
-
-function buildCanvas(idx) {
-  const wf = WORKFLOWS[idx];
-  const vp = document.getElementById('vp-' + idx);
-  const svg = document.getElementById('svg-' + idx);
-  if (vp.children.length > 0) return; // already built
-
-  // build nodes
-  wf.nodes.forEach(n => {
-    const cfg = getNodeCfg(n.type);
-    const isTrigger = cfg.color === '#e8a838';
-
-    const el = document.createElement('div');
-    el.className = 'n-node';
-    el.id = `node-${idx}-${n.id}`;
-    el.style.left = n.x + 'px';
-    el.style.top  = n.y + 'px';
-
-    if (!isTrigger) {
-      const lp = document.createElement('div');
-      lp.className = 'n-port left';
-      lp.style.background = cfg.color + '66';
-      el.appendChild(lp);
+    function getNodeCfg(type) {
+      const short = type.split('.').pop();
+      return NODE_CONFIG[short] || { icon: '⬡', color: '#475569', label: short };
     }
-    const rp = document.createElement('div');
-    rp.className = 'n-port right';
-    rp.style.background = cfg.color + '66';
-    el.appendChild(rp);
 
-    el.innerHTML += `
+    // WORKFLOW DEFINITIONS (simplified from JSON, positioned for canvas)
+    const WORKFLOWS = [
+      // 0: LinkedIn Auto-Poster
+      {
+        nodes: [
+          { id: 'a', name: 'Every Day at 9am', type: 'n8n-nodes-base.scheduleTrigger', x: 20, y: 80 },
+          { id: 'b', name: 'Generate Post (OpenAI)', type: 'n8n-nodes-base.openAi', x: 200, y: 80 },
+          { id: 'c', name: 'Extract Post Content', type: 'n8n-nodes-base.set', x: 380, y: 80 },
+          { id: 'd', name: 'Content Valid?', type: 'n8n-nodes-base.if', x: 560, y: 80 },
+          { id: 'e', name: 'Post to LinkedIn', type: 'n8n-nodes-base.linkedIn', x: 740, y: 20 },
+          { id: 'f', name: 'Airtable — Log Success', type: 'n8n-nodes-base.airtable', x: 920, y: 20 },
+          { id: 'g', name: 'Format Error Details', type: 'n8n-nodes-base.set', x: 740, y: 160 },
+          { id: 'h', name: 'Airtable — Log Failed', type: 'n8n-nodes-base.airtable', x: 920, y: 160 },
+          { id: 'i', name: 'Slack Alert — Post Failed', type: 'n8n-nodes-base.httpRequest', x: 1100, y: 160 },
+        ],
+        conns: [
+          ['a', 'b'], ['b', 'c'], ['c', 'd'],
+          ['d', 'e', 0], ['d', 'g', 1],
+          ['e', 'f'], ['e', 'g'],
+          ['g', 'h'], ['h', 'i'],
+        ]
+      },
+      // 1: Lead Qualification
+      {
+        nodes: [
+          { id: 'a', name: 'On form submission', type: 'n8n-nodes-base.formTrigger', x: 20, y: 100 },
+          { id: 'b', name: 'Search Airtable for Existing Email', type: 'n8n-nodes-base.airtable', x: 200, y: 100 },
+          { id: 'c', name: 'Is This a New Lead?', type: 'n8n-nodes-base.if', x: 380, y: 100 },
+          { id: 'd', name: 'Google Gemini Model', type: '@n8n/n8n-nodes-langchain.lmChatGoogleGemini', x: 460, y: 240 },
+          { id: 'e', name: 'AI Lead Scoring Agent', type: '@n8n/n8n-nodes-langchain.agent', x: 560, y: 100 },
+          { id: 'f', name: 'Parse & Validate AI Response', type: 'n8n-nodes-base.code', x: 740, y: 100 },
+          { id: 'g', name: 'Route by Lead Temperature', type: 'n8n-nodes-base.switch', x: 920, y: 100 },
+          { id: 'h', name: 'Send Hot Lead Email', type: 'n8n-nodes-base.gmail', x: 1100, y: 20 },
+          { id: 'i', name: 'Send Warm Lead Email', type: 'n8n-nodes-base.gmail', x: 1100, y: 100 },
+          { id: 'j', name: 'Send Cold Lead Email', type: 'n8n-nodes-base.gmail', x: 1100, y: 180 },
+          { id: 'k', name: 'Save Hot Lead to Airtable', type: 'n8n-nodes-base.airtable', x: 1280, y: 20 },
+          { id: 'l', name: 'WhatsApp Alert', type: 'n8n-nodes-base.httpRequest', x: 1280, y: 80 },
+          { id: 'm', name: 'Save Warm Lead to Airtable', type: 'n8n-nodes-base.airtable', x: 1280, y: 140 },
+          { id: 'n', name: 'Save Cold Lead to Airtable', type: 'n8n-nodes-base.airtable', x: 1280, y: 200 },
+        ],
+        conns: [
+          ['a', 'b'], ['b', 'c'],
+          ['c', 'e', 1], ['d', 'e'],
+          ['e', 'f'], ['f', 'g'],
+          ['g', 'h', 0], ['g', 'i', 1], ['g', 'j', 2],
+          ['h', 'k'], ['h', 'l'],
+          ['i', 'm'], ['j', 'n'],
+        ]
+      },
+      // 2: Drip Sequence
+      {
+        nodes: [
+          { id: 'a', name: 'Daily 9am Trigger', type: 'n8n-nodes-base.scheduleTrigger', x: 20, y: 120 },
+          { id: 'b', name: 'Find Warm Leads Email 2', type: 'n8n-nodes-base.airtable', x: 200, y: 40 },
+          { id: 'c', name: 'Find Warm Leads Email 3', type: 'n8n-nodes-base.airtable', x: 200, y: 120 },
+          { id: 'd', name: 'Find Cold Leads Email 2', type: 'n8n-nodes-base.airtable', x: 200, y: 200 },
+          { id: 'e', name: 'Send Warm Email 2 (Proof)', type: 'n8n-nodes-base.gmail', x: 420, y: 40 },
+          { id: 'f', name: 'Send Warm Email 3 (Soft CTA)', type: 'n8n-nodes-base.gmail', x: 420, y: 120 },
+          { id: 'g', name: 'Send Cold Email 2 (Final)', type: 'n8n-nodes-base.gmail', x: 420, y: 200 },
+          { id: 'h', name: 'Update Warm Lead → Email 2', type: 'n8n-nodes-base.airtable', x: 640, y: 40 },
+          { id: 'i', name: 'Update Warm Lead → Done', type: 'n8n-nodes-base.airtable', x: 640, y: 120 },
+          { id: 'j', name: 'Update Cold Lead → Done', type: 'n8n-nodes-base.airtable', x: 640, y: 200 },
+        ],
+        conns: [
+          ['a', 'b'], ['a', 'c'], ['a', 'd'],
+          ['b', 'e'], ['c', 'f'], ['d', 'g'],
+          ['e', 'h'], ['f', 'i'], ['g', 'j'],
+        ]
+      },
+      // 3: Cal.com Booking
+      {
+        nodes: [
+          { id: 'a', name: 'Cal.com Booking Webhook', type: 'n8n-nodes-base.webhook', x: 20, y: 100 },
+          { id: 'b', name: 'Extract Booking Details', type: 'n8n-nodes-base.code', x: 200, y: 100 },
+          { id: 'c', name: 'Find Lead by Email in Airtable', type: 'n8n-nodes-base.airtable', x: 380, y: 100 },
+          { id: 'd', name: "Save to 'Booked Calls' Table", type: 'n8n-nodes-base.airtable', x: 560, y: 100 },
+          { id: 'e', name: 'Send Booking Confirmation Email', type: 'n8n-nodes-base.gmail', x: 740, y: 40 },
+          { id: 'f', name: 'WhatsApp Alert to Host', type: 'n8n-nodes-base.httpRequest', x: 740, y: 160 },
+        ],
+        conns: [
+          ['a', 'b'], ['b', 'c'], ['c', 'd'],
+          ['d', 'e'], ['d', 'f'],
+        ]
+      },
+    ];
+
+    // ── STATE ──
+    const state = WORKFLOWS.map(() => ({ scale: 0.7, panX: 20, panY: 20, isPanning: false, panStart: { x: 0, y: 0 }, expanded: false }));
+    const NODE_W = 140, NODE_H = 68;
+
+    function buildCanvas(idx) {
+      const wf = WORKFLOWS[idx];
+      const vp = document.getElementById('vp-' + idx);
+      const svg = document.getElementById('svg-' + idx);
+      if (vp.children.length > 0) return; // already built
+
+      // build nodes
+      wf.nodes.forEach(n => {
+        const cfg = getNodeCfg(n.type);
+        const isTrigger = cfg.color === '#e8a838';
+
+        const el = document.createElement('div');
+        el.className = 'n-node';
+        el.id = `node-${idx}-${n.id}`;
+        el.style.left = n.x + 'px';
+        el.style.top = n.y + 'px';
+
+        if (!isTrigger) {
+          const lp = document.createElement('div');
+          lp.className = 'n-port left';
+          lp.style.background = cfg.color + '66';
+          el.appendChild(lp);
+        }
+        const rp = document.createElement('div');
+        rp.className = 'n-port right';
+        rp.style.background = cfg.color + '66';
+        el.appendChild(rp);
+
+        el.innerHTML += `
       <div class="n-node-top" style="border-color:${cfg.color}22;">
         <div class="n-icon" style="background:${cfg.color}18;color:${cfg.color};">${cfg.icon}</div>
         <div class="n-name">${n.name}</div>
       </div>
       <div class="n-type">${cfg.label}</div>
     `;
-    vp.appendChild(el);
-  });
+        vp.appendChild(el);
+      });
 
-  // draw connections after a tick (so layout is ready)
-  setTimeout(() => drawConns(idx), 30);
-  applyTransform(idx);
-}
+      // draw connections after a tick (so layout is ready)
+      setTimeout(() => drawConns(idx), 30);
+      applyTransform(idx);
+    }
 
-function drawConns(idx) {
-  const wf = WORKFLOWS[idx];
-  const svg = document.getElementById('svg-' + idx);
-  const win = document.getElementById('canvas-' + idx);
-  const connColor = getComputedStyle(win).getPropertyValue('--cv-conn').trim() || '#30363d';
-  svg.innerHTML = `<defs>
+    function drawConns(idx) {
+      const wf = WORKFLOWS[idx];
+      const svg = document.getElementById('svg-' + idx);
+      const win = document.getElementById('canvas-' + idx);
+      const connColor = getComputedStyle(win).getPropertyValue('--cv-conn').trim() || '#30363d';
+      svg.innerHTML = `<defs>
     <marker id="arr-${idx}" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
       <path d="M0,0 L0,6 L6,3 z" fill="${connColor}"/>
     </marker>
   </defs>`;
 
-  const nodeMap = {};
-  wf.nodes.forEach(n => nodeMap[n.id] = n);
+      const nodeMap = {};
+      wf.nodes.forEach(n => nodeMap[n.id] = n);
 
-  wf.conns.forEach(([srcId, dstId, outIdx=0]) => {
-    const src = nodeMap[srcId];
-    const dst = nodeMap[dstId];
-    if (!src || !dst) return;
+      wf.conns.forEach(([srcId, dstId, outIdx = 0]) => {
+        const src = nodeMap[srcId];
+        const dst = nodeMap[dstId];
+        if (!src || !dst) return;
 
-    const x1 = src.x + NODE_W;
-    const y1 = src.y + NODE_H/2 + outIdx * 18;
-    const x2 = dst.x;
-    const y2 = dst.y + NODE_H/2;
-    const cx1 = x1 + Math.abs(x2-x1)*0.4;
-    const cx2 = x2 - Math.abs(x2-x1)*0.4;
+        const x1 = src.x + NODE_W;
+        const y1 = src.y + NODE_H / 2 + outIdx * 18;
+        const x2 = dst.x;
+        const y2 = dst.y + NODE_H / 2;
+        const cx1 = x1 + Math.abs(x2 - x1) * 0.4;
+        const cx2 = x2 - Math.abs(x2 - x1) * 0.4;
 
-    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
-    path.setAttribute('d', `M${x1} ${y1} C${cx1} ${y1},${cx2} ${y2},${x2} ${y2}`);
-    path.setAttribute('fill','none');
-    path.setAttribute('stroke', connColor);
-    path.setAttribute('stroke-width','1.5');
-    path.setAttribute('stroke-linecap','round');
-    path.setAttribute('marker-end', `url(#arr-${idx})`);
-    svg.appendChild(path);
-  });
-}
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', `M${x1} ${y1} C${cx1} ${y1},${cx2} ${y2},${x2} ${y2}`);
+        path.setAttribute('fill', 'none');
+        path.setAttribute('stroke', connColor);
+        path.setAttribute('stroke-width', '1.5');
+        path.setAttribute('stroke-linecap', 'round');
+        path.setAttribute('marker-end', `url(#arr-${idx})`);
+        svg.appendChild(path);
+      });
+    }
 
-function applyTransform(idx) {
-  const s = state[idx];
-  const vp = document.getElementById('vp-' + idx);
-  const svg = document.getElementById('svg-' + idx);
-  const t = `translate(${s.panX}px,${s.panY}px) scale(${s.scale})`;
-  vp.style.transform = t;
-  svg.style.transform = t;
-  svg.style.transformOrigin = '0 0';
-}
+    function applyTransform(idx) {
+      const s = state[idx];
+      const vp = document.getElementById('vp-' + idx);
+      const svg = document.getElementById('svg-' + idx);
+      const t = `translate(${s.panX}px,${s.panY}px) scale(${s.scale})`;
+      vp.style.transform = t;
+      svg.style.transform = t;
+      svg.style.transformOrigin = '0 0';
+    }
 
-function fitCanvas(idx) {
-  const wf = WORKFLOWS[idx];
-  const body = document.getElementById('body-' + idx);
-  const bw = body.clientWidth, bh = body.clientHeight;
-  if (!wf.nodes.length) return;
+    function fitCanvas(idx) {
+      const wf = WORKFLOWS[idx];
+      const body = document.getElementById('body-' + idx);
+      const bw = body.clientWidth, bh = body.clientHeight;
+      if (!wf.nodes.length) return;
 
-  const minX = Math.min(...wf.nodes.map(n=>n.x));
-  const maxX = Math.max(...wf.nodes.map(n=>n.x+NODE_W));
-  const minY = Math.min(...wf.nodes.map(n=>n.y));
-  const maxY = Math.max(...wf.nodes.map(n=>n.y+NODE_H));
-  const cw = maxX - minX + 60, ch = maxY - minY + 60;
+      const minX = Math.min(...wf.nodes.map(n => n.x));
+      const maxX = Math.max(...wf.nodes.map(n => n.x + NODE_W));
+      const minY = Math.min(...wf.nodes.map(n => n.y));
+      const maxY = Math.max(...wf.nodes.map(n => n.y + NODE_H));
+      const cw = maxX - minX + 60, ch = maxY - minY + 60;
 
-  const s = state[idx];
-  s.scale = Math.min(bw/cw, bh/ch, 1);
-  s.scale = Math.max(0.2, s.scale);
-  s.panX = (bw - cw * s.scale)/2 - minX*s.scale + 30*s.scale;
-  s.panY = (bh - ch * s.scale)/2 - minY*s.scale + 30*s.scale;
-  applyTransform(idx);
-}
+      const s = state[idx];
+      s.scale = Math.min(bw / cw, bh / ch, 1);
+      s.scale = Math.max(0.2, s.scale);
+      s.panX = (bw - cw * s.scale) / 2 - minX * s.scale + 30 * s.scale;
+      s.panY = (bh - ch * s.scale) / 2 - minY * s.scale + 30 * s.scale;
+      applyTransform(idx);
+    }
 
-function zoomCanvas(idx, delta) {
-  state[idx].scale = Math.min(2, Math.max(0.2, state[idx].scale + delta));
-  applyTransform(idx);
-}
+    function zoomCanvas(idx, delta) {
+      state[idx].scale = Math.min(2, Math.max(0.2, state[idx].scale + delta));
+      applyTransform(idx);
+    }
 
-function expandCanvas(idx) {
-  const body = document.getElementById('body-' + idx);
-  state[idx].expanded = !state[idx].expanded;
-  body.classList.toggle('expanded', state[idx].expanded);
-  setTimeout(() => fitCanvas(idx), 50);
-}
+    function expandCanvas(idx) {
+      const body = document.getElementById('body-' + idx);
+      state[idx].expanded = !state[idx].expanded;
+      body.classList.toggle('expanded', state[idx].expanded);
+      setTimeout(() => fitCanvas(idx), 50);
+    }
 
-function toggleCanvasTheme(idx) {
-  const win = document.getElementById('canvas-' + idx);
-  win.classList.toggle('light');
-  // re-draw connections with updated color
-  if (document.getElementById('vp-' + idx).children.length > 0) {
-    drawConns(idx);
-  }
-}
+    function toggleCanvasTheme(idx) {
+      const win = document.getElementById('canvas-' + idx);
+      win.classList.toggle('light');
+      // re-draw connections with updated color
+      if (document.getElementById('vp-' + idx).children.length > 0) {
+        drawConns(idx);
+      }
+    }
 
-function toggleCanvas(idx) {
-  const win = document.getElementById('canvas-' + idx);
-  const btn = document.querySelectorAll(`#card-${idx} .action-btn`)[0];
-  const isOpen = win.classList.contains('open');
-  win.classList.toggle('open');
-  btn.classList.toggle('active', !isOpen);
+    function toggleCanvas(idx) {
+      const win = document.getElementById('canvas-' + idx);
+      const btn = document.querySelectorAll(`#card-${idx} .action-btn`)[0];
+      const isOpen = win.classList.contains('open');
+      win.classList.toggle('open');
+      btn.classList.toggle('active', !isOpen);
 
-  if (!isOpen) {
-    buildCanvas(idx);
-    setTimeout(() => fitCanvas(idx), 60);
-  }
-}
+      if (!isOpen) {
+        buildCanvas(idx);
+        setTimeout(() => fitCanvas(idx), 60);
+      }
+    }
 
-// Pan
-document.querySelectorAll('.canvas-body').forEach((body, idx) => {
-  body.addEventListener('mousedown', e => {
-    state[idx].isPanning = true;
-    state[idx].panStart = { x: e.clientX - state[idx].panX, y: e.clientY - state[idx].panY };
-    body.style.cursor = 'grabbing';
-  });
-  body.addEventListener('wheel', e => {
-    e.preventDefault();
-    zoomCanvas(idx, e.deltaY < 0 ? 0.08 : -0.08);
-  }, { passive: false });
-});
+    // Pan
+    document.querySelectorAll('.canvas-body').forEach((body, idx) => {
+      body.addEventListener('mousedown', e => {
+        state[idx].isPanning = true;
+        state[idx].panStart = { x: e.clientX - state[idx].panX, y: e.clientY - state[idx].panY };
+        body.style.cursor = 'grabbing';
+      });
+      body.addEventListener('wheel', e => {
+        e.preventDefault();
+        zoomCanvas(idx, e.deltaY < 0 ? 0.08 : -0.08);
+      }, { passive: false });
+    });
 
-window.addEventListener('mousemove', e => {
-  WORKFLOWS.forEach((_, idx) => {
-    if (!state[idx].isPanning) return;
-    state[idx].panX = e.clientX - state[idx].panStart.x;
-    state[idx].panY = e.clientY - state[idx].panStart.y;
-    applyTransform(idx);
-  });
-});
-window.addEventListener('mouseup', () => {
-  WORKFLOWS.forEach((_, idx) => {
-    state[idx].isPanning = false;
-    const body = document.getElementById('body-' + idx);
-    if (body) body.style.cursor = '';
-  });
-});
+    window.addEventListener('mousemove', e => {
+      WORKFLOWS.forEach((_, idx) => {
+        if (!state[idx].isPanning) return;
+        state[idx].panX = e.clientX - state[idx].panStart.x;
+        state[idx].panY = e.clientY - state[idx].panStart.y;
+        applyTransform(idx);
+      });
+    });
+    window.addEventListener('mouseup', () => {
+      WORKFLOWS.forEach((_, idx) => {
+        state[idx].isPanning = false;
+        const body = document.getElementById('body-' + idx);
+        if (body) body.style.cursor = '';
+      });
+    });
 
-// MODALS
-function openModal(idx) {
-  document.getElementById('modal-' + idx).classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeModal(idx, e) {
-  if (e && e.target !== document.getElementById('modal-' + idx)) return;
-  document.getElementById('modal-' + idx).classList.remove('open');
-  document.body.style.overflow = '';
-}
-// esc key
-window.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
-    document.body.style.overflow = '';
-  }
-});
-</script>
+    // MODALS
+    function openModal(idx) {
+      document.getElementById('modal-' + idx).classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(idx, e) {
+      if (e && e.target !== document.getElementById('modal-' + idx)) return;
+      document.getElementById('modal-' + idx).classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    // esc key
+    window.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+        document.body.style.overflow = '';
+      }
+    });
+  </script>
 </body>
+
 </html>
