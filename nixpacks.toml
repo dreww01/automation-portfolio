@@ -1,0 +1,10 @@
+[start]
+cmd = ""
+```
+
+And create a `public` folder, move your `index.html` into it:
+```
+your-repo/
+  public/
+    index.html
+  nixpacks.toml
